@@ -1,0 +1,29 @@
+{
+  "name": "whereat-simulate",
+  "version": "1.0.0",
+  "description": "grab bag of scripts for simulating use of whereat",
+  "main": "main.js",
+  "dependencies": {
+    "superagent": "^1.2.0",
+    "telnet-client": "^0.1.0"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/the-learning-collective/whereat-simulate.git"
+  },
+  "keywords": [
+    "script",
+    "location",
+    "telnet"
+  ],
+  "author": "@aguestuser",
+  "license": "GPL-3.0",
+  "bugs": {
+    "url": "https://github.com/the-learning-collective/whereat-simulate/issues"
+  },
+  "homepage": "https://github.com/the-learning-collective/whereat-simulate"
+}

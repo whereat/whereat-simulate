@@ -4,6 +4,7 @@
   "description": "grab bag of scripts for simulating use of whereat",
   "main": "main.js",
   "dependencies": {
+    "lodash": "^3.10.0",
     "superagent": "^1.2.0",
     "telnet-client": "^0.1.0"
   },

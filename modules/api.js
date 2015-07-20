@@ -8,10 +8,8 @@ api.init = (reqs) =>
   Promise.all(reqs.map(req => api.post('init', req)));
 
 // (Array[LocationRefreshPojo]) -> Promise[Array[LocationResponse]]
-api.refresh = (specs, time, lastPing) =>
-  Promise.all(
-    api.parseRefreshReqs(specs, time, lastPing)
-      .map(req => api.post('refresh', req)));
+api.refresh = (reqs) =>
+  Promise.all(reqs.map(req => api.post('refresh', req)));
 
 // () -> Promise[String]
 api.erase = () => (

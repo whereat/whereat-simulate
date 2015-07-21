@@ -1,4 +1,4 @@
-var locations = {
+const locations = {
   lastPing: 0,
   time: 2505606400000,
   telnet: [
@@ -28,8 +28,5 @@ var locations = {
     }
   ]
 };
-
-
-
 
 module.exports = locations;

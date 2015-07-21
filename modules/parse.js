@@ -24,6 +24,7 @@ parse.refreshRequests = (specs) => (
         }
       }))));
 
-const tail = (arr) => arr.splice(1, arr.size);
+// Array[_] -> Array[_]
+const tail = (arr) => arr.slice(1, arr.size);
 
 module.exports = parse;

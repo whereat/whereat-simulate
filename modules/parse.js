@@ -1,3 +1,4 @@
+const _ = require('lodash');
 const parse = {};
 
 // (LocationSpecs) -> Array[LocationInitPojo]
@@ -10,19 +11,25 @@ parse.initRequests = (specs) => (
       time: specs.time
     })));
 
-// (LocationSpecs) -> Array[Array[LocationRefreshPojo]]
+//(LocationSpecs) -> Array[Array[LocationRefreshPojo]]
 parse.refreshRequests = (specs) => (
-  specs.http.map(
-    spec => tail(spec.locs).map(
-      loc => ({
-        lastPing: specs.lastPing,
-        location: {
-          id: spec.id,
-          lat: loc.lat,
-          lon: loc.lon,
-          time: specs.time
-        }
-      }))));
+  _(specs.http)
+    .map(hSpec => (
+      _(hSpec.locs)
+        .tail()
+        .map(loc => ({
+          lastPing: specs.lastPing,
+          location: {
+            id: hSpec.id,
+            lat: loc.lat,
+            lon: loc.lon,
+            time: specs.time
+          }
+       }))
+       .value()
+    ))
+    .unzip()
+    .value());
 
 // Array[_] -> Array[_]
 const tail = (arr) => arr.slice(1, arr.size);

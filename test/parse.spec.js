@@ -15,7 +15,10 @@ describe('parse module', () => {
   describe('#refreshRequests', () => {
 
     it('parses an Array[Array[LocationRefreshPojo]]', () => {
-      parse.refreshRequests(lSpecs).should.eql(refreshRequests);
+      const res = parse.refreshRequests(lSpecs);
+      console.log(res);
+      //res.length.should.equal(3);
+      res.should.eql(refreshRequests);
     });
   });
 });

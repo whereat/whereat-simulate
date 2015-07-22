@@ -16,7 +16,7 @@ api.url = ("http://localhost:1090");
 
 chai.use(chaiAsPromised);
 
-describe('api module', () => {
+xdescribe('api module', () => {
 
   // before(() => {
   //   api.url = "https://localhost:9001";

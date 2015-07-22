@@ -43,6 +43,26 @@ samples.initRequests = [{
   time: 2505606400000
 }];
 
+samples.initResponses = [
+  [{
+    "id": "75782cd4-1a42-4af1-9130-05c63b2aa9fa",
+    "lat": 40.704715,
+    "lon": -74.013685,
+    "time": 2505606400000
+  }],
+  [{
+    "id": "75782cd4-1a42-4af1-9130-05c63b2aa9fa",
+    "lat": 40.704715,
+    "lon": -74.013685,
+    "time": 2505606400000
+  }, {
+    "id": "75782cd4-1a42-4af1-9130-05c63b2aa9fb",
+    "lat": 40.703084,
+    "lon": -74.010126,
+    "time": 2505606400000
+  }]
+];
+
 samples.refreshRequests = [
   [{
     lastPing: 0,

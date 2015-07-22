@@ -1,30 +1,28 @@
-const url = "https://whereat-server.herokuapp.com";
 const http = require('superagent');
 
 const api = {};
 
+api.url = "https://whereat-server.herokuapp.com";
+
 // (Array[LocationInitPojo]) -> Promise[Array[LocationResponse]]
-api.init = (reqs) =>
-  Promise.all(reqs.map(req => api.post('init', req)));
+api.init = (reqs) => Promise.all(reqs.map(req => api.post('init', req)));
 
 // (Array[LocationRefreshPojo]) -> Promise[Array[LocationResponse]]
-api.refresh = (reqs) =>
-  Promise.all(reqs.map(req => api.post('refresh', req)));
+api.refresh = (reqs) => Promise.all(reqs.map(req => api.post('refresh', req)));
 
 // () -> Promise[String]
 api.erase = () => (
   new Promise(
     (resolve, reject) => http
-      .post(`${url}/erase`)
+      .post(`${api.url}/locations/erase`)
       .end((err, res) => err ? reject(err) : resolve(res))));
 
 //(String, LocationPojo) => Promise[LocationResponse]
 api.post = (endpoint, req) => (
   new Promise(
     (resolve, reject) => http
-      .post(`${url}/${endpoint}`)
+      .post(`${api.url}/locations/${endpoint}`)
       .send(req)
-      .set('Accept', 'application/json')
-      .end((err, res) => err ? reject(err) : resolve(res))));
+      .end((err, res) => err ? reject(err) : resolve(res.body))));
 
 module.exports = api;

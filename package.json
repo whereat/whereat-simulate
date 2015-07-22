@@ -6,15 +6,21 @@
   "dependencies": {
     "babel": "^5.6.23",
     "babel-runtime": "^5.7.0",
-    "chai": "^3.2.0",
-    "chai-as-promised": "^5.1.0",
     "lodash": "^3.10.0",
-    "mocha": "^2.2.5",
-    "mocha-babel": "^3.0.0",
     "superagent": "^1.2.0",
     "telnet-client": "^0.1.0"
   },
-  "devDependencies": {},
+  "devDependencies": {
+    "chai": "^3.2.0",
+    "chai-as-promised": "^5.1.0",
+    "grunt": "^0.4.5",
+    "http": "0.0.0",
+    "mocha": "^2.2.5",
+    "mocha-babel": "^3.0.0",
+    "mockserver": "^1.2.3",
+    "mockserver-client": "^1.0.6",
+    "mockserver-grunt": "^1.0.26"
+  },
   "scripts": {
     "test": "mocha --recursive --compilers js:babel/register",
     "debug-test": "mocha --debug --recursive --compilers js:babel/register"

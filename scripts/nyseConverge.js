@@ -3,7 +3,7 @@ const api = require('../modules/api');
 const parse = require('../modules/parse');
 const locSpecs = require('../data/nyseConverge.js');
 
-const reqInterval = 5;
+const reqInterval = 4;
 const tnInterval = 1;
 
 const main = () => {

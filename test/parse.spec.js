@@ -7,15 +7,22 @@ describe('parse module', () => {
 
   describe('#initRequests', () => {
 
-    it('parses an Array[LocationInitPojo]', () => {
-      parse.initRequests(lSpecs).should.eql(initRequests);
+    describe('with a multiplier of 1', () => {
+
+      it('wraps each LatLon in an #init request, maintaining its value', () => {
+        parse.initRequests(1, lSpecs).should.eql(initRequests);
+      });
     });
   });
 
   describe('#refreshRequests', () => {
 
-    it('parses an Array[Array[LocationRefreshPojo]]', () => {
-      parse.refreshRequests(lSpecs).should.eql(refreshRequests);
+    describe('with a multiplier of 1', () => {
+
+      it('wraps each LatLon in a #refresh request, maintaining its value', () => {
+        console.log(parse.refreshRequests(1, lSpecs));
+        parse.refreshRequests(1, lSpecs).should.eql(refreshRequests);
+      });
     });
   });
 

@@ -1,46 +1,52 @@
 const _ = require('lodash');
 const { floor, random } = Math;
+const uuid = require('node-uuid');
 const latLonVariance = .001;
 
 const parse = {};
 
-// (LocationSpecs) -> Array[LocationInitRequest]
-parse.initRequests = (n, specs) => (
+parse.variance = latLonVariance;
+
+// (Number, LocationSpecs) -> String
+parse.getUuids = (specs, mult) => _.times(specs.http.size * mult, uuid.v4);
+
+// (LocationSpecs, Array[String], Number) -> Array[LocationInitRequest]
+parse.initRequests = (specs, uuids, mult) => (
   _(specs.http)
-    .map(
-      spec =>
-        multiply(n, _.partial(initify, specs, spec), spec.locs[0]))
+    .map((spec, i) => (
+      multiply(mult, _.partial(initify, specs, spec), uuids, i * mult, spec.locs[0])))
     .flatten()
     .value());
 
-//(LocationSpecs) -> Array[Array[LocationRefreshRequest]]
-parse.refreshRequests = (n, specs) =>
-  _(specs.http)
-  .map(
-    spec =>
-      _(spec.locs)
-      .tail()
-      .map(loc => multiply(n, _.partial(refreshify, specs, spec), loc))
-      .flatten()
-      .value())
-  .unzip()
-  .value();
+//(LocationSpecs, Array[String], Number) -> Array[Array[LocationRefreshRequest]]
+parse.refreshRequests = (specs, uuids, mult) => {
+  return _(specs.http)
+    .map((spec, i) => (
+        _(spec.locs)
+        .tail()
+        .map(loc => (
+          multiply(mult, _.partial(refreshify, specs, spec), uuids, i * mult, loc)))
+        .value()))
+    .unzip()
+    .map(_.flatten)
+    .value();
+};
 
 // (LocationSpecs) -> Array[String]
 parse.ids = (specs) => _.pluck(specs.http, 'id');
 
 // (LocationSpecs, HttpLocationSpec) -> LocationInitRequest
-const initify = (specs, spec, loc) => ({
-  id: spec.id,
+const initify = (specs, spec, resolve, loc) => ({
+  id: resolve(spec.id),
   lat: loc.lat,
   lon: loc.lon,
   time: specs.time
 });
 
-const refreshify = (specs, spec, loc) => ({
+const refreshify = (specs, spec, resolve, loc) => ({
   lastPing: specs.lastPing,
   location: {
-    id: spec.id,
+    id: resolve(spec.id),
     lat: loc.lat,
     lon: loc.lon,
     time: specs.time
@@ -48,11 +54,19 @@ const refreshify = (specs, spec, loc) => ({
 });
 
 // (Number, (LatLon => LocationRequest), LatLon) -> LocationSpecs
-const multiply = (n, requestify, loc) => (
-  _([requestify(loc)])
-    .concat(_.times(n - 1, requestify(scatter(loc))))
-    .value()
-);
+const multiply = (n, requestify, uuids, offset, loc) => {
+  return [requestify(_.identity, loc)]
+    .concat(
+      _.times(n-1, (i) => (
+        requestify(_.partial(uuidify, uuids, offset, i), scatter(loc)))));
+};
+
+// (Array[String], Number, String) -> String
+const uuidify = (uuids, offset, index, id) => {
+  const res = uuids[index + offset];
+  console.log(res);
+  return res;
+};
 
 // (LatLon) => LatLon
 const scatter = (loc) => ({
@@ -61,6 +75,9 @@ const scatter = (loc) => ({
 });
 
 // (Number) -> Number
-const randomize = (n) => floor(random() * latLonVariance);
+const randomize = (n) => {
+  const rand = n - (parse.variance / 2) + (random() * parse.variance);
+  return _.round(rand, 6);
+};
 
 module.exports = parse;

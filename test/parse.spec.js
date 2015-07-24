@@ -5,6 +5,13 @@ const { lSpecs, initRequests, refreshRequests, ids } = require('./samples');
 
 describe('parse module', () => {
 
+  describe('#getUuids', () => {
+
+    it('generates an array of n UUIDs -- where n is specs.length * multiplier', () => {
+      parse.getUuids(lSpecs,3).length.should.equal(6);
+    });
+  });
+
   describe('#initRequests', () => {
 
     describe('with a multiplier of 1', () => {
@@ -20,6 +27,8 @@ describe('parse module', () => {
       it('wraps n LatLons in requests, randomly offsetting the value of each', () => {
         const ids = parse.getUuids(lSpecs, 3);
         const res = parse.initRequests(lSpecs, ids, 3);
+        console.log(">>>>INIT REQUESTS * 3");
+        console.log(JSON.stringify(res, null, 2));
         res.length.should.equal(initRequests.length * 3);
         //max(lats.map(l => abs(orig - l))).should.beLessThan(parse.variance)
       });
@@ -40,6 +49,7 @@ describe('parse module', () => {
         it('wraps n LatLons in requests, randomly offsetting the value of each', () => {
           const ids = parse.getUuids(lSpecs, 3);
           const res = parse.refreshRequests(lSpecs, ids, 3);
+          console.log(">>>>REFRESH REQUESTS * 3");
           console.log(JSON.stringify(res, null, 2));
           res.length.should.equal(refreshRequests.length);
           //max(lats.map(l => abs(orig - l))).should.beLessThan(parse.variance)

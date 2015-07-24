@@ -7,8 +7,8 @@ const parse = {};
 
 parse.variance = latLonVariance;
 
-// (Number, LocationSpecs) -> String
-parse.getUuids = (specs, mult) => _.times(specs.http.size * mult, uuid.v4);
+// (LocationSpecs, Number) -> Array[String]
+parse.getUuids = (specs, mult) => _.times(numIds(specs, mult), uuid.v4);
 
 // (LocationSpecs, Array[String], Number) -> Array[LocationInitRequest]
 parse.initRequests = (specs, uuids, mult) => (
@@ -34,6 +34,9 @@ parse.refreshRequests = (specs, uuids, mult) => {
 
 // (LocationSpecs) -> Array[String]
 parse.ids = (specs) => _.pluck(specs.http, 'id');
+
+// (LocationSpecs, Number) -> Number
+const numIds = (specs, mult) => specs.http.length * mult;
 
 // (LocationSpecs, HttpLocationSpec) -> LocationInitRequest
 const initify = (specs, spec, resolve, loc) => ({
@@ -62,11 +65,7 @@ const multiply = (n, requestify, uuids, offset, loc) => {
 };
 
 // (Array[String], Number, String) -> String
-const uuidify = (uuids, offset, index, id) => {
-  const res = uuids[index + offset];
-  console.log(res);
-  return res;
-};
+const uuidify = (uuids, offset, index, id) => uuids[index + offset];
 
 // (LatLon) => LatLon
 const scatter = (loc) => ({

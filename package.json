@@ -20,11 +20,12 @@
     "mocha-babel": "^3.0.0",
     "mockserver": "^1.2.3",
     "mockserver-client": "^1.0.6",
-    "mockserver-grunt": "^1.0.26"
+    "mockserver-grunt": "^1.0.26",
+    "node-inspector": "^0.11.2"
   },
   "scripts": {
     "test": "mocha --recursive --compilers js:babel/register",
-    "debug-test": "mocha --debug --recursive --compilers js:babel/register"
+    "debug-test": "node-inspector & mocha --compilers js:babel/register ./test/parse.spec.js --debug-brk"
   },
   "repository": {
     "type": "git",

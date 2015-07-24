@@ -31,6 +31,11 @@ samples.lSpecs = {
   ]
 };
 
+samples.ids = [
+  "75782cd4-1a42-4af1-9130-05c63b2aa9fa",
+  "75782cd4-1a42-4af1-9130-05c63b2aa9fb"
+];
+
 samples.initRequests = [{
   id: "75782cd4-1a42-4af1-9130-05c63b2aa9fa",
   lat: 40.704715,

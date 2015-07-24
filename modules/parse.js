@@ -31,7 +31,7 @@ parse.refreshRequests = (specs) => (
     .unzip()
     .value());
 
-// Array[_] -> Array[_]
-const tail = (arr) => arr.slice(1, arr.size);
+// (LocationSpecs) -> Array[String]
+parse.ids = (specs) => _.pluck(specs.http, 'id');
 
 module.exports = parse;

@@ -10,6 +10,9 @@ api.init = (reqs) => Promise.all(reqs.map(req => api.post('init', req)));
 // (Array[LocationRefreshPojo]) -> Promise[Array[LocationResponse]]
 api.refresh = (reqs) => Promise.all(reqs.map(req => api.post('refresh', req)));
 
+// (Array[String]) -> Promise[Array[String]]
+api.remove = (ids) => Promise.all(ids.map(id => api.post('remove', id)));
+
 // () -> Promise[String]
 api.erase = () => (
   new Promise(

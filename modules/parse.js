@@ -1,7 +1,7 @@
 const _ = require('lodash');
 const { floor, random } = Math;
 const uuid = require('node-uuid');
-const latLonVariance = .001;
+const latLonVariance = .00075;
 
 const parse = {};
 

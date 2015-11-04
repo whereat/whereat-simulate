@@ -10,23 +10,16 @@ parse.variance = latLonVariance;
 // (LocationSpecs, Number) -> Array[String]
 parse.getUuids = (specs, mult) => _.times(numIds(specs, mult), uuid.v4);
 
-// (LocationSpecs, Array[String], Number) -> Array[LocationInitRequest]
-parse.initRequests = (specs, uuids, mult) => (
-  _(specs.http)
-    .map((spec, i) => (
-      multiply(mult, _.partial(initify, specs, spec), uuids, i * mult, spec.locs[0])))
-    .flatten()
-    .value());
-
-//(LocationSpecs, Array[String], Number) -> Array[Array[LocationRefreshRequest]]
-parse.refreshRequests = (specs, uuids, mult) => {
+// (LocationSpecs, Array[String], Number) -> Array[Array[LocationRefreshRequest]]
+parse.updateRequests = (specs, uuids, mult) => {
   return _(specs.http)
     .map((spec, i) => (
-        _(spec.locs)
-        .tail()
-        .map(loc => (
-          multiply(mult, _.partial(refreshify, specs, spec), uuids, i * mult, loc)))
-        .value()))
+      spec.locs.map(loc => multiply(
+        mult,
+        _.partial(requestify, specs, spec),
+        uuids,
+        i * mult,
+        loc))))
     .unzip()
     .map(_.flatten)
     .value();
@@ -38,15 +31,8 @@ parse.ids = (specs) => _.pluck(specs.http, 'id');
 // (LocationSpecs, Number) -> Number
 const numIds = (specs, mult) => specs.http.length * mult;
 
-// (LocationSpecs, HttpLocationSpec) -> LocationInitRequest
-const initify = (specs, spec, resolve, loc) => ({
-  id: resolve(spec.id),
-  lat: loc.lat,
-  lon: loc.lon,
-  time: specs.time
-});
-
-const refreshify = (specs, spec, resolve, loc) => ({
+// (LocSpecs, LocSpec, (LocSpec => LocSpec), Location) -> UpdateRequest
+const requestify = (specs, spec, resolve, loc) => ({
   lastPing: specs.lastPing,
   location: {
     id: resolve(spec.id),
@@ -75,7 +61,7 @@ const scatter = (loc) => ({
 
 // (Number) -> Number
 const randomize = (n) => {
-  const rand = n - (parse.variance / 2) + (random() * parse.variance);
+  const rand = (n - (parse.variance / 2)) + (random() * parse.variance);
   return _.round(rand, 6);
 };
 

@@ -2,13 +2,10 @@ const http = require('superagent');
 
 const api = {};
 
-api.url = "https://whereat-server.herokuapp.com";
+api.url = "https://api-dev.whereat.io";
 
-// (Array[LocationInitPojo]) -> Promise[Array[LocationResponse]]
-api.init = (reqs) => Promise.all(reqs.map(req => api.post('init', req)));
-
-// (Array[LocationRefreshPojo]) -> Promise[Array[LocationResponse]]
-api.refresh = (reqs) => Promise.all(reqs.map(req => api.post('refresh', req)));
+// (Array[LocationUpdatePojo]) -> Promise[Array[LocationResponse]]
+api.update = (reqs) => Promise.all(reqs.map(req => api.post('update', req)));
 
 // (Array[String]) -> Promise[Array[String]]
 api.remove = (ids) => Promise.all(ids.map(id => api.post('remove', id)));

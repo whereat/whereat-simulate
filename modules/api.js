@@ -3,8 +3,8 @@ const http = require('superagent');
 const api = {};
 
 api.url = process.NODE_ENV === 'dev' ?
-  "https://dev-api.whereat.com" :
-  "https://api.whereat.com";
+  "https://dev-api.whereat.io" :
+  "https://api.whereat.io";
 
 // (Array[LocationUpdatePojo]) -> Promise[Array[LocationResponse]]
 api.update = (reqs) => Promise.all(reqs.map(req => api.post('update', req)));
